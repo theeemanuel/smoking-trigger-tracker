@@ -60,9 +60,11 @@ class _HomeScreenState extends State<HomeScreen> {
     await prefs.setString('customTriggers', json.encode(_customTriggers));
   }
 
-  void _logTrigger(String trigger) {
+  void _logTrigger(String trigger, [String? note]) {
+    final logEntry = '${DateTime.now().toLocal()} - $trigger'
+        '${note != null && note.trim().isNotEmpty ? ' [${note.trim()}]' : ''}';
     setState(() {
-      _triggerLogs.insert(0, '${DateTime.now().toLocal()} - $trigger');
+      _triggerLogs.insert(0, logEntry);
     });
     _saveData();
   }
@@ -139,6 +141,30 @@ class _HomeScreenState extends State<HomeScreen> {
     _saveData();
   }
 
+  void _promptNoteAndLog(String trigger) {
+    final noteController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Add Note (optional)'),
+        content: TextField(
+          controller: noteController,
+          decoration: InputDecoration(hintText: 'E.g., had argument, felt anxious...'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              final note = noteController.text;
+              Navigator.pop(context);
+              _logTrigger(trigger, note);
+            },
+            child: Text('Log Trigger'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showTriggerOptions() {
     final triggers = [..._defaultTriggers, ..._customTriggers];
     showModalBottomSheet(
@@ -149,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: Text(trigger),
                 onTap: () {
                   Navigator.pop(context);
-                  _logTrigger(trigger);
+                  _promptNoteAndLog(trigger);
                 },
               )),
           if (_customTriggers.isNotEmpty) Divider(),
@@ -160,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text(trigger),
               onTap: () {
                 Navigator.pop(context);
-                _logTrigger(trigger);
+                _promptNoteAndLog(trigger);
               },
               trailing: PopupMenuButton<String>(
                 onSelected: (value) {
@@ -202,7 +228,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final Map<String, int> counts = {};
     for (final entry in _triggerLogs) {
       final trigger = entry.split('-').last.trim();
-      counts[trigger] = (counts[trigger] ?? 0) + 1;
+      final name = trigger.split('[')[0].trim();
+      counts[name] = (counts[name] ?? 0) + 1;
     }
     return counts;
   }
@@ -218,6 +245,18 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BarChart(
           BarChartData(
             alignment: BarChartAlignment.spaceAround,
+            barTouchData: BarTouchData(
+              enabled: true,
+              touchTooltipData: BarTouchTooltipData(
+                tooltipBgColor: Colors.black87,
+                getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                  return BarTooltipItem(
+                    '${keys[group.x]}: ${rod.toY.toInt()}',
+                    TextStyle(color: Colors.white),
+                  );
+                },
+              ),
+            ),
             titlesData: FlTitlesData(
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
@@ -247,11 +286,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 barRods: [
                   BarChartRodData(
                     toY: counts[keys[i]]!.toDouble(),
-                    color: Colors.teal,
-                    width: 18,
-                    borderRadius: BorderRadius.circular(4),
+                    gradient: LinearGradient(colors: [Colors.teal, Colors.greenAccent]),
+                    width: 20,
+                    borderRadius: BorderRadius.circular(6),
                   )
                 ],
+                showingTooltipIndicators: [0],
               );
             }),
           ),
@@ -277,15 +317,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Center(child: Text('No triggers logged yet.'))
           : Column(
               children: [
-                SizedBox(height: 250, child: _buildBarChart()),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: _triggerLogs.length,
-                    itemBuilder: (_, index) => ListTile(
-                      title: Text(_triggerLogs[index]),
+                  child: Container(
+                    color: Colors.black87,
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      itemCount: _triggerLogs.length,
+                      itemBuilder: (_, index) => Text(
+                        _triggerLogs[index],
+                        style: TextStyle(
+                          color: Colors.greenAccent,
+                          fontFamily: 'monospace',
+                          fontSize: 14,
+                        ),
+                      ),
                     ),
                   ),
                 ),
+                SizedBox(height: 250, child: _buildBarChart()),
               ],
             ),
       floatingActionButton: FloatingActionButton(
