@@ -1,16 +1,30 @@
-# smoking_trigger_tracker
+# Dephasing - Smoking Trigger Tracker
 
-A new Flutter project.
+Dephasing is a Flutter mobile app designed to help you track and log smoking triggers. It lets you log predefined and custom triggers with optional notes, visualize your trigger patterns with a beautiful bar chart, and review your trigger history in a terminal-style log.
+
+## Features
+
+- Log common smoking triggers like Stress, Coffee, After Meal, and Boredom.
+- Add, edit, and delete your own custom triggers.
+- Add optional notes to each trigger log entry.
+- View trigger history in a clean, terminal-style log.
+- Visualize triggers with an interactive bar chart.
+- Persist data locally using `shared_preferences`.
+- Easy to clear logs.
+
+## Screenshots
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- A connected device or emulator
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repo:
+
+```bash
+git clone https://github.com/theeemanuel/smoking-trigger-tracker.git
+cd dephasing
