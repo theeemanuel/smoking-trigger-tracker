@@ -15,70 +15,90 @@ class _LogTriggerScreenState extends State<LogTriggerScreen> {
   final _noteController = TextEditingController();
   bool _didSmoke = false;
 
+  InputDecoration _roundedInputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12), // Rounded edges
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final recentTriggers = Provider.of<AppState>(context).recentTriggers;
+    final existingTriggers = Provider.of<AppState>(context)
+        .entries
+        .map((e) => e.trigger)
+        .toSet()
+        .toList()
+      ..sort();
 
     return Scaffold(
       appBar: AppBar(title: const Text("Log Trigger")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
-            if (recentTriggers.isNotEmpty) ...[
-              const Text(
-                "Recent Triggers:",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
+            // Trigger input and quick select
+            TextField(
+              controller: _triggerController,
+              decoration: _roundedInputDecoration("Trigger (e.g. stress, party, etc)"),
+            ),
+            const SizedBox(height: 12),
+            if (existingTriggers.isNotEmpty) ...[
               Wrap(
                 spacing: 8,
-                runSpacing: 8,
-                children: recentTriggers.map((trigger) {
+                runSpacing: 4,
+                children: existingTriggers.map((t) {
                   return ActionChip(
-                    label: Text(trigger),
-                    onPressed: () {
-                      _triggerController.text = trigger;
-                    },
+                    label: Text(t),
+                    onPressed: () => setState(() {
+                      _triggerController.text = t;
+                    }),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 16),
             ],
-            TextField(
-              controller: _triggerController,
-              decoration: const InputDecoration(
-                labelText: "Trigger (e.g. stress, party, etc)",
-              ),
-            ),
+
+            // Optional note field
             TextField(
               controller: _noteController,
-              decoration: const InputDecoration(
-                labelText: "Optional note",
-              ),
+              maxLines: 4,
+              minLines: 2,
+              decoration: _roundedInputDecoration("Optional note"),
             ),
+
+            const SizedBox(height: 20),
+
+            // Did you smoke switch
             SwitchListTile(
               title: const Text("Did you smoke?"),
               value: _didSmoke,
               onChanged: (val) => setState(() => _didSmoke = val),
             ),
+
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                final entry = TriggerEntry(
-                  trigger: _triggerController.text,
-                  didSmoke: _didSmoke,
-                  note: _noteController.text.isEmpty
-                      ? null
-                      : _noteController.text,
-                  timestamp: DateTime.now(),
-                );
-                Provider.of<AppState>(context, listen: false).addEntry(entry);
-                Navigator.pop(context);
-              },
-              child: const Text("Save Entry"),
-            )
+
+            // Save button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  final entry = TriggerEntry(
+                    trigger: _triggerController.text.trim(),
+                    didSmoke: _didSmoke,
+                    note: _noteController.text.trim().isEmpty
+                        ? null
+                        : _noteController.text.trim(),
+                    timestamp: DateTime.now(),
+                  );
+                  Provider.of<AppState>(context, listen: false).addEntry(entry);
+                  Navigator.pop(context);
+                },
+                child: const Text("Save Entry"),
+              ),
+            ),
           ],
         ),
       ),

@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Smoke Control"),
+        title: const Text("Dephase your smoke"),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_forever),

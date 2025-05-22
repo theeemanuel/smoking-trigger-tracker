@@ -346,6 +346,36 @@
 //   }
 // }
 
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import 'providers/app_state.dart';
+// import 'screens/home_screen.dart';
+
+// void main() {
+//   runApp(
+//     ChangeNotifierProvider(
+//       create: (_) => AppState()..loadEntries(),
+//       child: const SmokingApp(),
+//     ),
+//   );
+// }
+
+// class SmokingApp extends StatelessWidget {
+//   const SmokingApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Smoke Control',
+//       theme: ThemeData(
+//         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+//         useMaterial3: true,
+//       ),
+//       home: const HomeScreen(),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_state.dart';
@@ -366,10 +396,52 @@ class SmokingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Smoke Control',
+      title: 'Dephase your smoke',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
+        fontFamily: 'Roboto',
+        scaffoldBackgroundColor: Colors.grey.shade50,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Colors.teal),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Colors.teal, width: 2),
+          ),
+          labelStyle: const TextStyle(color: Colors.teal),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        ),
+        cardTheme: CardThemeData(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          elevation: 3,
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        ),
+        switchTheme: SwitchThemeData(
+          thumbColor: MaterialStateProperty.all(Colors.teal),
+          trackColor: MaterialStateProperty.all(Colors.teal.shade100),
+        ),
+        chipTheme: ChipThemeData(
+          backgroundColor: Colors.teal.shade100,
+          selectedColor: Colors.teal,
+          labelStyle: const TextStyle(color: Colors.black),
+          secondaryLabelStyle: const TextStyle(color: Colors.white),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        ),
       ),
       home: const HomeScreen(),
     );
