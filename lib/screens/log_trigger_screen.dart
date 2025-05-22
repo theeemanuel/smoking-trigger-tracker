@@ -81,24 +81,46 @@ class _LogTriggerScreenState extends State<LogTriggerScreen> {
             const SizedBox(height: 20),
 
             // Save button
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       final entry = TriggerEntry(
+            //         trigger: _triggerController.text.trim(),
+            //         didSmoke: _didSmoke,
+            //         note: _noteController.text.trim().isEmpty
+            //             ? null
+            //             : _noteController.text.trim(),
+            //         timestamp: DateTime.now(),
+            //       );
+            //       Provider.of<AppState>(context, listen: false).addEntry(entry);
+            //       Navigator.pop(context);
+            //     },
+            //     child: const Text("Save Entry"),
+            //   ),
+            // ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                child: const Text("Save Entry"),
                 onPressed: () {
+                  final rawTrigger = _triggerController.text.trim();
+                  final cleanedTrigger = rawTrigger.isEmpty ? 'null' : rawTrigger;
+
                   final entry = TriggerEntry(
-                    trigger: _triggerController.text.trim(),
+                    trigger: cleanedTrigger,
                     didSmoke: _didSmoke,
                     note: _noteController.text.trim().isEmpty
                         ? null
                         : _noteController.text.trim(),
                     timestamp: DateTime.now(),
                   );
+
                   Provider.of<AppState>(context, listen: false).addEntry(entry);
                   Navigator.pop(context);
                 },
-                child: const Text("Save Entry"),
               ),
-            ),
+            )
           ],
         ),
       ),

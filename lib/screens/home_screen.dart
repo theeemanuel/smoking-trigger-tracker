@@ -129,6 +129,7 @@ import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
 import 'statistics_screen.dart';
 import '../widgets/fish_tank_decoration.dart';
+import '../widgets/stat_plots.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -268,32 +269,73 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.teal.shade100.withOpacity(0.7),
-                    blurRadius: 8,
-                    spreadRadius: 2,
-                    offset: const Offset(0, 3),
-                  )
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: state.currentFish != null
-                    ? const FishTankDecoration()
-                    : Container(
-                        height: 150,
-                        color: Colors.teal.shade50,
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "No fish yet. Resist smoking to earn one!",
-                          style: TextStyle(fontSize: 16, color: Colors.teal),
-                        ),
-                      ),
-              ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(16),
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.teal.shade100.withOpacity(0.7),
+            //         blurRadius: 8,
+            //         spreadRadius: 2,
+            //         offset: const Offset(0, 3),
+            //       )
+            //     ],
+            //   ),
+            //   child: ClipRRect(
+            //     borderRadius: BorderRadius.circular(16),
+            //     child: state.currentFish != null
+            //         ? const FishTankDecoration()
+            //         : Container(
+            //             height: 150,
+            //             color: Colors.teal.shade50,
+            //             alignment: Alignment.center,
+            //             child: const Text(
+            //               "No fish yet. Resist smoking to earn one!",
+            //               style: TextStyle(fontSize: 16, color: Colors.teal),
+            //             ),
+            //           ),
+            //   ),
+            // ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Fish tank container
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.teal.shade100.withOpacity(0.7),
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                        offset: const Offset(0, 3),
+                      )
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: state.currentFish != null
+                        ? const FishTankDecoration()
+                        : Container(
+                            width: 300,
+                            height: 150,
+                            color: Colors.teal.shade50,
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "No fish yet. Resist smoking to earn one!",
+                              style: TextStyle(fontSize: 16, color: Colors.teal),
+                            ),
+                          ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                // Stat box widget
+                const SizedBox(
+                  width: 300,
+                  height: 150,
+                  child: StatPlots(),
+                ),
+              ],
             ),
 
             const SizedBox(height: 20),
