@@ -19,4 +19,6 @@ const fishImageMap = {
   'red_skeleton': 'assets/fish/fish_red_skeleton.png',
   'red': 'assets/fish/fish_red.png',
   'red_defined': 'assets/fish/fish_red_outline.png',
+  'brown': 'assets/fish/fish_brown.png',
+  'brown_defined': 'assets/fish/fish_brown_outline.png',
 };

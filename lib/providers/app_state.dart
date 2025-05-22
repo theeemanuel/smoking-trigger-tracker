@@ -13,12 +13,6 @@ class AppState extends ChangeNotifier {
   Fish? _currentFish;
   Fish? get currentFish => _currentFish;
 
-  // Future<void> loadEntries() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final data = prefs.getStringList('trigger_entries') ?? [];
-  //   _entries = data.map((e) => TriggerEntry.fromJson(jsonDecode(e))).toList();
-  //   notifyListeners();
-  // }
   Future<void> loadEntries() async {
     final prefs = await SharedPreferences.getInstance();
     final data = prefs.getStringList('trigger_entries') ?? [];
@@ -34,17 +28,6 @@ class AppState extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  // Future<void> addEntry(TriggerEntry entry) async {
-  //   _entries.add(entry);
-  //   if (entry.didSmoke) {
-  //     _currentFish = null; // fish dies
-  //   } else {
-  //     _currentFish = getFishForStreak(currentStreak + 1); // add new fish
-  //   }
-  //   await saveEntries();
-  //   notifyListeners();
-  // }
 
   Future<void> addEntry(TriggerEntry entry) async {
     _entries.add(entry);
@@ -62,13 +45,6 @@ class AppState extends ChangeNotifier {
     final data = _entries.map((e) => jsonEncode(e.toJson())).toList();
     await prefs.setStringList('trigger_entries', data);
   }
-
-  // Future<void> resetAll() async {
-  //   _entries.clear();
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.remove('trigger_entries');
-  //   notifyListeners();
-  // }
 
   Future<void> resetAll() async {
     _entries.clear();
@@ -101,4 +77,20 @@ class AppState extends ChangeNotifier {
     return recent;
   }
 
+  /// New getter to calculate streak days from first trigger date
+  int get streakDaysFromFirstTrigger {
+    if (_entries.isEmpty) return 0;
+
+    // Find earliest date ignoring time part
+    final firstDate = _entries
+        .map((e) => DateTime(e.timestamp.year, e.timestamp.month, e.timestamp.day))
+        .reduce((a, b) => a.isBefore(b) ? a : b);
+
+    final today = DateTime.now();
+    final todayDate = DateTime(today.year, today.month, today.day);
+
+    final diff = todayDate.difference(firstDate).inDays + 1; // +1 to include start day
+
+    return diff;
+  }
 }
