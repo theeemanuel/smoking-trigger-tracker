@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'log_trigger_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../utils/fish_svgs.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
+//import '../utils/fish_svgs.dart';
+import '../utils/fish_image_map.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,37 @@ class HomeScreen extends StatelessWidget {
     final streak = state.currentStreak;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Smoke Control")),
+      appBar: AppBar(
+        title: const Text("Smoke Control"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_forever),
+            tooltip: "Clear All Logs",
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text("Clear All Logs"),
+                  content: const Text("Are you sure you want to clear all logs?"),
+                  actions: [
+                    TextButton(
+                      child: const Text("Cancel"),
+                      onPressed: () => Navigator.of(ctx).pop(),
+                    ),
+                    TextButton(
+                      child: const Text("Clear"),
+                      onPressed: () {
+                        Provider.of<AppState>(context, listen: false).resetAll();
+                        Navigator.of(ctx).pop();
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
@@ -33,10 +64,16 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Text("Your Fish: ${state.currentFish!.name}"),
                 const SizedBox(height: 10),
-                SvgPicture.string(
-                  fishSvgMap[state.currentFish!.type] ?? '',
-                  width: 100,
-                  height: 60,
+                // SvgPicture.string(
+                //   fishSvgMap[state.currentFish!.type] ?? '',
+                //   width: 100,
+                //   height: 60,
+                // ),
+                Image.asset(
+                  fishImageMap[state.currentFish!.type] ?? '',
+                  width: 120,
+                  height: 80,
+                  fit: BoxFit.contain,
                 ),
               ],
             )

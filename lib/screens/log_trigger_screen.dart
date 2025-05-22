@@ -17,19 +17,46 @@ class _LogTriggerScreenState extends State<LogTriggerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final recentTriggers = Provider.of<AppState>(context).recentTriggers;
+
     return Scaffold(
       appBar: AppBar(title: const Text("Log Trigger")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (recentTriggers.isNotEmpty) ...[
+              const Text(
+                "Recent Triggers:",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: recentTriggers.map((trigger) {
+                  return ActionChip(
+                    label: Text(trigger),
+                    onPressed: () {
+                      _triggerController.text = trigger;
+                    },
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+            ],
             TextField(
               controller: _triggerController,
-              decoration: const InputDecoration(labelText: "Trigger (e.g. stress, party, etc)"),
+              decoration: const InputDecoration(
+                labelText: "Trigger (e.g. stress, party, etc)",
+              ),
             ),
             TextField(
               controller: _noteController,
-              decoration: const InputDecoration(labelText: "Optional note"),
+              decoration: const InputDecoration(
+                labelText: "Optional note",
+              ),
             ),
             SwitchListTile(
               title: const Text("Did you smoke?"),
@@ -42,7 +69,9 @@ class _LogTriggerScreenState extends State<LogTriggerScreen> {
                 final entry = TriggerEntry(
                   trigger: _triggerController.text,
                   didSmoke: _didSmoke,
-                  note: _noteController.text.isEmpty ? null : _noteController.text,
+                  note: _noteController.text.isEmpty
+                      ? null
+                      : _noteController.text,
                   timestamp: DateTime.now(),
                 );
                 Provider.of<AppState>(context, listen: false).addEntry(entry);
