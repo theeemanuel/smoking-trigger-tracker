@@ -194,19 +194,245 @@ class HomeScreen extends StatelessWidget {
         label: const Text("Log Trigger"),
         elevation: 6,
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFE0F7FA), Color(0xFF80DEEA)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+      // body: Container(
+      //   decoration: const BoxDecoration(
+      //     gradient: LinearGradient(
+      //       colors: [Color(0xFFE0F7FA), Color(0xFF80DEEA)],
+      //       begin: Alignment.topCenter,
+      //       end: Alignment.bottomCenter,
+      //     ),
+      //   ),
+      //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      //   child: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //       // Streak & encouragement section
+      //       Center(
+      //         child: Column(
+      //           children: [
+      //             Text(
+      //               "Current Streak",
+      //               style: Theme.of(context).textTheme.titleMedium?.copyWith(
+      //                     color: Colors.teal.shade900,
+      //                     fontWeight: FontWeight.w600,
+      //                   ),
+      //             ),
+      //             Text(
+      //               "$totalDays days and $currentStreak triggers",
+      //               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+      //                     color: Colors.teal.shade700,
+      //                     fontWeight: FontWeight.bold,
+      //                   ),
+      //             ),
+
+      //             // const SizedBox(height: 8),
+
+      //             // Text(
+      //             //   "Days since first trigger",
+      //             //   style: Theme.of(context).textTheme.titleMedium?.copyWith(
+      //             //         color: Colors.teal.shade900,
+      //             //         fontWeight: FontWeight.w600,
+      //             //       ),
+      //             // ),
+      //             // Text(
+      //             //   "$totalDays days",
+      //             //   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+      //             //         color: Colors.teal.shade700,
+      //             //         fontWeight: FontWeight.bold,
+      //             //       ),
+      //             // ),
+
+      //             const SizedBox(height: 8),
+
+      //             Text(
+      //               triggersCount > 0
+      //                   ? "Keep it up! You're doing great 🐠"
+      //                   : "Start your journey today!",
+      //               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+      //                     color: Colors.teal.shade800,
+      //                     fontStyle: FontStyle.italic,
+      //                   ),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+
+      //       const SizedBox(height: 20),
+
+      //       // Fish tank section
+      //       const Text(
+      //         "Your Fish Tank",
+      //         style: TextStyle(
+      //           fontSize: 20,
+      //           fontWeight: FontWeight.w700,
+      //           color: Colors.teal,
+      //         ),
+      //       ),
+      //       const SizedBox(height: 10),
+      //       // Container(
+      //       //   decoration: BoxDecoration(
+      //       //     borderRadius: BorderRadius.circular(16),
+      //       //     boxShadow: [
+      //       //       BoxShadow(
+      //       //         color: Colors.teal.shade100.withOpacity(0.7),
+      //       //         blurRadius: 8,
+      //       //         spreadRadius: 2,
+      //       //         offset: const Offset(0, 3),
+      //       //       )
+      //       //     ],
+      //       //   ),
+      //       //   child: ClipRRect(
+      //       //     borderRadius: BorderRadius.circular(16),
+      //       //     child: state.currentFish != null
+      //       //         ? const FishTankDecoration()
+      //       //         : Container(
+      //       //             height: 150,
+      //       //             color: Colors.teal.shade50,
+      //       //             alignment: Alignment.center,
+      //       //             child: const Text(
+      //       //               "No fish yet. Resist smoking to earn one!",
+      //       //               style: TextStyle(fontSize: 16, color: Colors.teal),
+      //       //             ),
+      //       //           ),
+      //       //   ),
+      //       // ),
+      //       Row(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           // Fish tank container
+      //           Container(
+      //             decoration: BoxDecoration(
+      //               borderRadius: BorderRadius.circular(16),
+      //               boxShadow: [
+      //                 BoxShadow(
+      //                   color: Colors.teal.shade100.withOpacity(0.7),
+      //                   blurRadius: 8,
+      //                   spreadRadius: 2,
+      //                   offset: const Offset(0, 3),
+      //                 )
+      //               ],
+      //             ),
+      //             child: ClipRRect(
+      //               borderRadius: BorderRadius.circular(16),
+      //               child: state.currentFish != null
+      //                   ? const FishTankDecoration()
+      //                   : Container(
+      //                       width: 300,
+      //                       height: 150,
+      //                       color: Colors.teal.shade50,
+      //                       alignment: Alignment.center,
+      //                       child: const Text(
+      //                         "No fish yet. Resist smoking to earn one!",
+      //                         style: TextStyle(fontSize: 16, color: Colors.teal),
+      //                       ),
+      //                     ),
+      //             ),
+      //           ),
+      //           const SizedBox(width: 16),
+      //           // Stat box widget
+      //           const SizedBox(
+      //             width: 300,
+      //             height: 150,
+      //             child: StatPlots(),
+      //           ),
+      //         ],
+      //       ),
+
+      //       const SizedBox(height: 20),
+
+      //       // Triggers log header
+      //       Text(
+      //         "Your Triggers Log",
+      //         style: TextStyle(
+      //           fontSize: 20,
+      //           fontWeight: FontWeight.w700,
+      //           color: Colors.teal.shade900,
+      //         ),
+      //       ),
+      //       const SizedBox(height: 8),
+
+      //       // Trigger entries list
+      //       Expanded(
+      //         child: triggersCount == 0
+      //             ? Center(
+      //                 child: Text(
+      //                   "No triggers logged yet.\nTap the '+' button to add one!",
+      //                   textAlign: TextAlign.center,
+      //                   style: TextStyle(
+      //                     color: Colors.teal.shade700,
+      //                     fontSize: 16,
+      //                     fontStyle: FontStyle.italic,
+      //                   ),
+      //                 ),
+      //               )
+      //             : ListView.builder(
+      //                 itemCount: triggersCount,
+      //                 itemBuilder: (context, index) {
+      //                   final e = state.entries.reversed.toList()[index];
+      //                   return Card(
+      //                     margin: const EdgeInsets.symmetric(vertical: 6),
+      //                     shape: RoundedRectangleBorder(
+      //                       borderRadius: BorderRadius.circular(12),
+      //                     ),
+      //                     elevation: 2,
+      //                     child: ListTile(
+      //                       contentPadding: const EdgeInsets.symmetric(
+      //                         vertical: 8,
+      //                         horizontal: 16,
+      //                       ),
+      //                       title: Text(
+      //                         e.trigger,
+      //                         style: const TextStyle(fontWeight: FontWeight.w600),
+      //                       ),
+      //                       subtitle: e.note != null && e.note!.trim().isNotEmpty
+      //                           ? Column(
+      //                               crossAxisAlignment: CrossAxisAlignment.start,
+      //                               children: [
+      //                                 Text(
+      //                                   e.note!,
+      //                                   style: const TextStyle(
+      //                                     fontSize: 13,
+      //                                     fontStyle: FontStyle.italic,
+      //                                     color: Colors.grey,
+      //                                   ),
+      //                                 ),
+      //                                 const SizedBox(height: 4),
+      //                                 Text(
+      //                                   e.timestamp.toString(),
+      //                                   style: const TextStyle(fontSize: 12, color: Colors.grey),
+      //                                 ),
+      //                               ],
+      //                             )
+      //                           : Text(
+      //                               e.timestamp.toString(),
+      //                               style: const TextStyle(fontSize: 12, color: Colors.grey),
+      //                             ),
+      //                       trailing: Icon(
+      //                         e.didSmoke ? Icons.warning : Icons.favorite,
+      //                         color: e.didSmoke ? Colors.redAccent : Colors.green,
+      //                       ),
+      //                     ),
+      //                   );
+      //                 },
+      //               ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
+    body: Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFFE0F7FA), Color(0xFF80DEEA)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Streak & encouragement section
+            // Streak & encouragement section (fixed height)
             Center(
               child: Column(
                 children: [
@@ -224,26 +450,7 @@ class HomeScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                   ),
-
-                  // const SizedBox(height: 8),
-
-                  // Text(
-                  //   "Days since first trigger",
-                  //   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  //         color: Colors.teal.shade900,
-                  //         fontWeight: FontWeight.w600,
-                  //       ),
-                  // ),
-                  // Text(
-                  //   "$totalDays days",
-                  //   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  //         color: Colors.teal.shade700,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  // ),
-
                   const SizedBox(height: 8),
-
                   Text(
                     triggersCount > 0
                         ? "Keep it up! You're doing great 🐠"
@@ -259,7 +466,7 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // Fish tank section
+            // Fish tank + stats row inside a fixed-height container
             const Text(
               "Your Fish Tank",
               style: TextStyle(
@@ -269,73 +476,47 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            // Container(
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(16),
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: Colors.teal.shade100.withOpacity(0.7),
-            //         blurRadius: 8,
-            //         spreadRadius: 2,
-            //         offset: const Offset(0, 3),
-            //       )
-            //     ],
-            //   ),
-            //   child: ClipRRect(
-            //     borderRadius: BorderRadius.circular(16),
-            //     child: state.currentFish != null
-            //         ? const FishTankDecoration()
-            //         : Container(
-            //             height: 150,
-            //             color: Colors.teal.shade50,
-            //             alignment: Alignment.center,
-            //             child: const Text(
-            //               "No fish yet. Resist smoking to earn one!",
-            //               style: TextStyle(fontSize: 16, color: Colors.teal),
-            //             ),
-            //           ),
-            //   ),
-            // ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Fish tank container
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.teal.shade100.withOpacity(0.7),
-                        blurRadius: 8,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 3),
-                      )
-                    ],
+
+            SizedBox(
+              height: 180, // Give fixed height so no overflow horizontally
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.teal.shade100.withOpacity(0.7),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 3),
+                          )
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: state.currentFish != null
+                            ? const FishTankDecoration()
+                            : Container(
+                                color: Colors.teal.shade50,
+                                alignment: Alignment.center,
+                                child: const Text(
+                                  "No fish yet. Resist smoking to earn one!",
+                                  style: TextStyle(fontSize: 16, color: Colors.teal),
+                                ),
+                              ),
+                      ),
+                    ),
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: state.currentFish != null
-                        ? const FishTankDecoration()
-                        : Container(
-                            width: 300,
-                            height: 150,
-                            color: Colors.teal.shade50,
-                            alignment: Alignment.center,
-                            child: const Text(
-                              "No fish yet. Resist smoking to earn one!",
-                              style: TextStyle(fontSize: 16, color: Colors.teal),
-                            ),
-                          ),
+                  const SizedBox(width: 16),
+                  SizedBox(
+                    width: 150,
+                    child: const StatPlots(),
                   ),
-                ),
-                const SizedBox(width: 16),
-                // Stat box widget
-                const SizedBox(
-                  width: 300,
-                  height: 150,
-                  child: StatPlots(),
-                ),
-              ],
+                ],
+              ),
             ),
 
             const SizedBox(height: 20),
@@ -351,7 +532,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
 
-            // Trigger entries list
+            // Make list flexible to take all remaining space and scroll
             Expanded(
               child: triggersCount == 0
                   ? Center(
@@ -419,6 +600,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }
